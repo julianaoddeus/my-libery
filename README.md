@@ -26,7 +26,19 @@ Permite listar livros que você leu ou tem interesse em ler, e na página de det
 
 ---
 
-## 📂 Estrutura do Projeto
+⚡ Tecnologias Utilizadas
+
+Gatsby – framework React para SSG.
+
+React – UI e componentes.
+
+MDX – conteúdo de livros em arquivos Markdown + TSX.
+
+TailwindCSS – estilização rápida e responsiva.
+
+gatsby-plugin-image – otimização de imagens.
+
+ShadCN para maior versatilidade de componentes.
 
 
 ## 🚀 Quick start (Netlify)
