@@ -132,7 +132,7 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                         </div>
                     </div>
                     <Textarea
-                        placeholder="Escreva seu comentário sobre o livro..."
+                        placeholder="Escreva seu comentário..."
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         className="min-h-32 bg-background border-border text-foreground"
