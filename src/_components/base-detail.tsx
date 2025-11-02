@@ -106,7 +106,7 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                     onSubmit={handleSubmitComment} 
                     className="mb-8 bg-card p-6 rounded-lg"
                 >
-                    <input type="hidden" name="form-name" value={`avaliacao-${baseDefault.id}`} />
+                    <input type="hidden" name="form-name" value={`c-${baseDefault.id}`} />
                     <input type="hidden" name="bot-field" />
                     <input type="hidden" name="obra" value={baseDefault.title} />
 
