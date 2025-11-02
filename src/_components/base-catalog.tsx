@@ -5,7 +5,8 @@ import BaseCard from "./base-card"
 import { IGatsbyImageData } from "gatsby-plugin-image"
 import { useState } from "react"
 import BaseDetail from "./base-detail"
-
+import { MediaType } from "../constants/media-types"
+import { PageProps } from "gatsby"
 
 interface ICatalog {
   id: string
@@ -16,7 +17,8 @@ interface ICatalog {
   duration: string
   mediaType: string
   synopsis: string
-  cover: IGatsbyImageData  
+  cover: IGatsbyImageData
+  
 }
 
 interface ICatalogProps {
@@ -26,11 +28,11 @@ interface ICatalogProps {
 
 export default function BaseCatalog  ({ catalog, description }: ICatalogProps) {
   const [selectedItem, setSelectedItem] = useState<ICatalog | null>(null);  
-
+  
   return (
-     <main className="flex-1 overflow-y-auto">
-        
-          {selectedItem  ? (<BaseDetail baseDefault={selectedItem} onBack={() => setSelectedItem(null)}/>)             
+     <main className="flex-1 overflow-y-auto">        
+          {selectedItem 
+            ? (<BaseDetail baseDefault={selectedItem} onBack={() => setSelectedItem(null)}/>)             
             : (
             <div className="p-8">
             {/* Hero Section */}

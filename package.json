@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@mdx-js/react": "^2.3.0",
+    "@radix-ui/react-dialog": "^1.1.15",
     "class-variance-authority": "^0.7.1",
     "gatsby": "^5.14.6",
     "gatsby-plugin-image": "^3.15.0",

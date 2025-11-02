@@ -3,7 +3,6 @@ import BaseSidebar from "../_components/base-sidebar"
 import BaseCatalog from "../_components/base-catalog"
 import { graphql } from "gatsby"
 import { getImage } from "gatsby-plugin-image"
-
 export const query = graphql`
   query BaseQuery {
     allMdx(filter: { internal: { contentFilePath: { regex: "/favorities/" } } }) {
@@ -38,10 +37,10 @@ export default function IndexPage  ({ data }: { data: any }) {
     mediaType: node.frontmatter.mediaType,    
     cover:  getImage(node.frontmatter.cover.childImageSharp),
     synopsis: node.frontmatter.synopsis,  
-  }))    
-  return (
-    <div className="flex h-screen bg-background text-foreground">
-       <BaseSidebar />      
+  }))  
+  return (    
+    <div className="flex h-screen bg-background text-foreground">      
+       <BaseSidebar />   
        <BaseCatalog catalog={defaultLayout} description="Um catálogo de emoções em cada história."/>
     </div>
   )

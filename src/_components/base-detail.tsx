@@ -121,13 +121,14 @@ const handleSubmitComment = (event: { preventDefault: () => void }) => {
                     Comentários ({comments.length})
                 </h2>
                <form 
-                    name={`c-${baseDefault.id}`}
+                    name="form-react"
                     method="POST"
-                    netlify-honeypot="bot-field"
+                    data-netlify="true"
+                    data-netlify-honeypot="bot-field"
                     onSubmit={handleSubmitComment} 
                     className="mb-8 bg-card p-6 rounded-lg"
                 >
-                    <input type="hidden" name="form-name" value={`c-${baseDefault.id}`} />
+                    <input type="hidden" name="form-name" value="form-react"/>
                     <input type="hidden" name="bot-field" />                   
 
                     <h3 className="text-lg font-semibold mb-4 text-foreground">Deixe seu comentário</h3>
