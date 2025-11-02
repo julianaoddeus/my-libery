@@ -1,11 +1,11 @@
 import * as React from "react"
-import { ArrowLeft, BookOpen, Info, Play, Star } from "lucide-react"
+import { ArrowLeft, BookOpen, Info, Star } from "lucide-react"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { IGatsbyImageData } from "gatsby-plugin-image"
 import { Button } from "../components/ui/button"
 import { Textarea } from "../components/ui/textarea"
 import { MediaType } from "../constants/media-types"
-
+import { Input } from "../components/ui/input"
 
 interface IDetail {
   id: string
@@ -32,7 +32,27 @@ interface IDetailProps {
   onBack: () => void
 }
 export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {    
-     const [comment, setComment] = React.useState("");
+    const [comments, setComments] = React.useState<Comment[]>([]);
+    const [newComment, setNewComment] = React.useState("");
+    const [userName, setUserName] = React.useState("");
+    const [rating, setRating] = React.useState(5);
+
+    const handleSubmitComment = (e: React.FormEvent) => {
+        e.preventDefault()
+        if (newComment.trim() && userName.trim()) {
+        const comment: Comment = {
+            id: Date.now().toString(),
+            name: userName,
+            rating,
+            text: newComment,
+            date: new Date().toLocaleDateString('pt-BR'),
+        }
+        setComments([comment, ...comments])
+        setNewComment("")
+        setUserName("")
+        setRating(5)
+        }
+    }
     return (
     <div className="min-h-screen">
         <div className="bg-linear-to-b from-primary/30 via-primary/10 to-background p-8">            
@@ -77,55 +97,76 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
              <section>
                  <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                     <Star className="h-6 w-6  text-purple-500" />
-                    Comentários
+                    Comentários ({comments.length})
                 </h2>
-                <form  className="mb-8 bg-card p-6 rounded-lg">
-                    <h3 className="text-lg font-semibold mb-4 text-foreground">Meus comentários</h3>
-                    <div className="space-y-4">                        
-                         <div className="flex items-center gap-4">
-                            <label className="text-sm text-muted-foreground">Avaliação:</label>
-                            <div className="flex gap-1">
-                                {[1, 2, 3, 4, 5].map((star) => (
-                                    <button key={star} type="button" onClick={() => {}} className="focus:outline-none">
-                                    <Star
-                                        className="h-6 w-6 fill-purple-500 text-purple-500"
-                                    />
-                                    </button>
-                                ))}
-                            </div>
-                         </div>
-                         <Textarea
-                            placeholder="Tudo começa com uma história..."
-                            value="Texto inicial"
-                            readOnly
-                            className="min-h-32 bg-background border-border text-foreground"
-                            required
-                        />
-                        <Button type="submit" className="bg-purple-500 text-primary-foreground hover:bg-primary/90">
-                            Publicar Comentário
-                        </Button>
+               <form 
+                    name={`avaliacao-${baseDefault.id}`}
+                    method="POST"
+                    onSubmit={handleSubmitComment} 
+                    netlify-honeypot="bot-field" 
+                    className="mb-8 bg-card p-6 rounded-lg"
+                >
+                    <input type="hidden" name="form-name" value={`avaliacao-${baseDefault.id}`} />
+                    <input type="hidden" name="bot-field" />
+                    <input type="hidden" name="obra" value={baseDefault.title} />
+
+                    <h3 className="text-lg font-semibold mb-4 text-foreground">Deixe seu comentário</h3>
+                    <div className="space-y-4">
+                    <Input
+                        placeholder="Um clássico absoluto! "
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        className="bg-background border-border text-foreground"
+                        required
+                    />
+                    <div className="flex items-center gap-4">
+                        <label className="text-sm text-muted-foreground">Avaliação:</label>
+                        <div className="flex gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <button key={star} type="button" onClick={() => setRating(star)} className="focus:outline-none">
+                            <Star
+                                className={`h-6 w-6 ${star <= rating ? "fill-purple-500  text-purple-500" : "text-muted-foreground"}`}
+                            />
+                            </button>
+                        ))}
+                        </div>
+                    </div>
+                    <Textarea
+                        placeholder="Escreva seu comentário sobre o livro..."
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        className="min-h-32 bg-background border-border text-foreground"
+                        required
+                    />
+                    <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                        Publicar Comentário
+                    </Button>
                     </div>
                 </form>
 
-                 <div className="space-y-4">
-                     <div  className="bg-card p-6 rounded-lg">
+               <div className="space-y-4">
+                    {comments.map((comment) => (
+                    <div key={comment.id} className="bg-card p-6 rounded-lg">
                         <div className="flex items-start justify-between mb-2">
-                            <div>
-                                <h4 className="font-semibold text-foreground">Juliana</h4>
-                                <div className="flex gap-1 mt-1">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <Star
-                                        key={star}
-                                        className="h-6 w-6 fill-purple-500 text-purple-500"
-                                        />
-                                    ))}
-                                </div>
+                        <div>
+                            <h4 className="font-semibold text-foreground">{comment.name}</h4>
+                            <div className="flex gap-1 mt-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                key={star}
+                                className={`h-4 w-4 ${
+                                    star <= comment.rating ? "fill-purple-500  text-purple-500" : "text-muted-foreground"
+                                }`}
+                                />
+                            ))}
                             </div>
-                            <span className="text-sm text-muted-foreground">20/11/2025</span>
                         </div>
-                        <p className="text-muted-foreground text-pretty">Um clássico absoluto! A escrita é envolvente e os temas são atemporais.</p>
-                     </div>
-                 </div>
+                        <span className="text-sm text-muted-foreground">{comment.date}</span>
+                        </div>
+                        <p className="text-muted-foreground text-pretty">{comment.text}</p>
+                    </div>
+                    ))}
+                </div>
              </section>
          </div>
     </div>
