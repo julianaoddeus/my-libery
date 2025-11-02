@@ -103,7 +103,8 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                     name={`avaliacao-${baseDefault.id}`}
                     method="POST"
                     onSubmit={handleSubmitComment} 
-                    netlify-honeypot="bot-field" 
+                    netlify-honeypot="bot-field"
+                    data-netlify="true"
                     className="mb-8 bg-card p-6 rounded-lg"
                 >
                     <input type="hidden" name="form-name" value={`avaliacao-${baseDefault.id}`} />
