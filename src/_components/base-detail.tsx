@@ -6,8 +6,6 @@ import { Button } from "../components/ui/button"
 import { Textarea } from "../components/ui/textarea"
 import { MediaType } from "../constants/media-types"
 import { Input } from "../components/ui/input"
-import { encode } from "node:querystring"
-
 
 interface IDetail {
   id: string
@@ -46,26 +44,34 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
 
         const form = e.currentTarget as HTMLFormElement;
         const formData = new FormData(form);
-
-        try {
-            await fetch("/", {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData as any).toString(),
+      
+        formData.append("form-name", form.getAttribute("name")!);
+        try {         
+            
+            
+            const response = await fetch("/", { 
+                method: "POST",
+                body: new URLSearchParams(formData as any).toString(), 
             });
 
-            const comment: Comment = {
-            id: Date.now().toString(),
-            name: userName,
-            rating,
-            text: newComment,
-            date: new Date().toLocaleDateString("pt-BR"),
-            };
-            setComments([comment, ...comments]);
-            setNewComment("");
-            setUserName("");
-            setRating(5);
-            alert("Comentário enviado com sucesso!");
+            if (response.status === 200 || response.status === 204) {
+                const comment: Comment = {
+                    id: Date.now().toString(),
+                    name: userName,
+                    rating,
+                    text: newComment,
+                    date: new Date().toLocaleDateString("pt-BR"),
+                };
+                setComments([comment, ...comments]);
+                setNewComment("");
+                setUserName("");
+                setRating(5);
+                
+                alert("Comentário enviado com sucesso!");
+            } else {
+                alert(`Falha ao enviar o comentário. Status: ${response.status}`);
+            }
+            
         } catch (err) {
             alert("Falha ao enviar o comentário para o Netlify.");
         }
@@ -120,14 +126,12 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                <form 
                     name={`c-${baseDefault.id}`}
                     method="POST"
-                    data-netlify="true"
                     netlify-honeypot="bot-field"
-                    onSubmit={handleSubmitComment}
+                    onSubmit={handleSubmitComment} 
                     className="mb-8 bg-card p-6 rounded-lg"
                 >
                     <input type="hidden" name="form-name" value={`c-${baseDefault.id}`} />
-                    <input type="hidden" name="bot-field" />
-                    <input type="hidden" name="obra" value={baseDefault.title} />
+                    <input type="hidden" name="bot-field" />                   
 
                     <h3 className="text-lg font-semibold mb-4 text-foreground">Deixe seu comentário</h3>
                     <div className="space-y-4">
