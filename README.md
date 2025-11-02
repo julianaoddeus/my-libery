@@ -46,3 +46,5 @@ ShadCN para maior versatilidade de componentes.
 Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
 
 [<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+
+## As imagens e informações sobre filmes e animes neste site são usadas apenas para fins educacionais, sem fins lucrativos. Todos os direitos autorais pertencem a seus respectivos detentores.

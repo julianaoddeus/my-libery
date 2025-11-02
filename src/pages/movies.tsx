@@ -6,7 +6,7 @@ import { getImage } from "gatsby-plugin-image"
 
 export const query = graphql`
   query BaseQuery {
-    allMdx(filter: { internal: { contentFilePath: { regex: "/favorities/" } } }) {
+   allMdx(filter: { internal: { contentFilePath: { regex: "/movies/" } } }) {
       nodes {
         frontmatter {
           id
@@ -21,30 +21,30 @@ export const query = graphql`
             childImageSharp {
               gatsbyImageData(width: 200, placeholder: BLURRED)
             }
-          }        
+          }
         }
       }
     }
   }
 `
-export default function IndexPage  ({ data }: { data: any }) {  
-  const defaultLayout = data.allMdx.nodes.map((node: any) => ({
+export default function MoviePage  ({ data }: { data: any }) {
+  const defaultLayout = data.allMdx.nodes.map((node: any) => ({    
     id: node.frontmatter.id,
     title: node.frontmatter.title,
     author: node.frontmatter.author,
     year: node.frontmatter.year,
-    pages: node.frontmatter.pages,
     duration: node.frontmatter.duration,
-    mediaType: node.frontmatter.mediaType,    
+    mediaType: node.frontmatter.mediaType,
     cover:  getImage(node.frontmatter.cover.childImageSharp),
-    synopsis: node.frontmatter.synopsis,  
-  }))    
+    synopsis: node.frontmatter.synopsis,
+
+  })) 
   return (
     <div className="flex h-screen bg-background text-foreground">
-       <BaseSidebar />      
-       <BaseCatalog catalog={defaultLayout} description="Um catálogo de emoções em cada história."/>
+       <BaseSidebar />
+       <BaseCatalog catalog={defaultLayout} description="Esses são meus filmes favoritos" />
     </div>
   )
 }
 
-export const Head = () => <title>PlotPoint</title>
+export const Head = () => <title>Filmes</title>

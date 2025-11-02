@@ -14,14 +14,28 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `books`,
-        path: `${__dirname}/src/content/books/`,
+        path: `${__dirname}/src/content/`,
       },
-    }, 
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `images`,
+        name: `images-books`,
         path: `${__dirname}/src/content/images/`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `favorities`,
+        path: `${__dirname}/src/content/animes/`,
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images-favorities`,
+        path: `${__dirname}/src/content/images/animes/`,
       },
     },
   ],

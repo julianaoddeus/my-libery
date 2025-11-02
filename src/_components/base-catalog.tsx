@@ -1,40 +1,43 @@
 import * as React from "react"
 import { Search } from "lucide-react"
 import { Input } from "../components/ui/input"
-import BookCard from "./book-card"
+import BaseCard from "./base-card"
 import { IGatsbyImageData } from "gatsby-plugin-image"
 import { useState } from "react"
-import BookDetail from "./book-detail"
+import BaseDetail from "./base-detail"
 
-interface Book {
+
+interface ICatalog {
   id: string
   title: string
   author: string
   year: number
   pages: number
+  duration: string
+  mediaType: string
   synopsis: string
-  cover: IGatsbyImageData
-  
+  cover: IGatsbyImageData  
 }
 
-interface BookCardProps {
-  books: Book[]
- 
+interface ICatalogProps {
+  catalog: ICatalog[]
+  description?: string
 }
 
-export default function BookCatalog  ({ books }: BookCardProps) {
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null)
-  
+export default function BaseCatalog  ({ catalog, description }: ICatalogProps) {
+  const [selectedItem, setSelectedItem] = useState<ICatalog | null>(null);  
+
   return (
      <main className="flex-1 overflow-y-auto">
         
-          {selectedBook ? (<BookDetail book={selectedBook} onBack={() => setSelectedBook(null)}/>) : (
+          {selectedItem  ? (<BaseDetail baseDefault={selectedItem} onBack={() => setSelectedItem(null)}/>)             
+            : (
             <div className="p-8">
             {/* Hero Section */}
             <div className="mb-8 bg-linear-to-b from-primary/20 to-transparent rounded-lg p-8">
-              <h2 className="text-5xl font-bold mb-4 text-balance">Descubra sua próxima leitura</h2>
+              <h2 className="text-5xl font-bold mb-4 text-balance">Onde cada título é uma experiência</h2>
               <p className="text-lg text-muted-foreground text-pretty">
-                Essa é minha coleção de clássicos da literatura mundial
+                {description}
               </p>
             </div>
 
@@ -45,7 +48,7 @@ export default function BookCatalog  ({ books }: BookCardProps) {
                 <Input
                   type="text"
                   placeholder="Buscar livros ou autores..."
-                  value={""}                
+                  readOnly             
                   className="pl-10 bg-card border-border text-foreground"
                 />
               </div>
@@ -53,10 +56,11 @@ export default function BookCatalog  ({ books }: BookCardProps) {
 
             {/* Books Grid */}
             <div className="pt-6">
-              <h3 className="text-2xl font-bold mb-6">Meus Favoritos</h3>
+              <h3 className="text-2xl font-bold mb-6 border-b border-b-gray-800 border-solid">Meus Favoritos</h3>
+               <span className="border-t border-gray-300 border-dashed"></span>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-               {books.map((bk) => (
-                <BookCard key={bk.id} book={bk} onClick={() => setSelectedBook(bk)} />
+               {catalog.map((bk) => (
+                <BaseCard key={bk.id} card={bk} onClick={() => setSelectedItem(bk)} />
                ))}
                 
               </div>
