@@ -100,11 +100,10 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                     Comentários ({comments.length})
                 </h2>
                <form 
-                    name={`avaliacao-${baseDefault.id}`}
+                    name={`c-${baseDefault.id}`}
                     method="POST"
-                    onSubmit={handleSubmitComment} 
-                    netlify-honeypot="bot-field"
                     data-netlify="true"
+                    onSubmit={handleSubmitComment} 
                     className="mb-8 bg-card p-6 rounded-lg"
                 >
                     <input type="hidden" name="form-name" value={`avaliacao-${baseDefault.id}`} />
