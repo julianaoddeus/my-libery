@@ -37,48 +37,41 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
     const [userName, setUserName] = React.useState("");
     const [rating, setRating] = React.useState(5);
 
-   // DENTRO DO SEU ARQUIVO BaseDetail.tsx
+const handleSubmitComment = (event: { preventDefault: () => void }) => { 
+    event.preventDefault();
+    
+    if (!newComment.trim() || !userName.trim()) return; 
 
-const handleSubmitComment = async (e: React.FormEvent) => {
-    e.preventDefault();
+    const comment: Comment = {
+        id: Date.now().toString(),
+        name: userName,
+        rating,
+        text: newComment,
+        date: new Date().toLocaleDateString("pt-BR"),
+    };
 
-    if (!newComment.trim() || !userName.trim()) return;
+    const encode = (data: any) => {
+        return Object.keys(data)
+            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+            .join("&");
+    }; 
 
-    const form = e.currentTarget as HTMLFormElement;
-    const formData = new FormData(form);
-    formData.append("form-name", form.getAttribute("name")!);
-
-    try {
-        const response = await fetch("/", {
-            method: "POST",           
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: new URLSearchParams(formData as any).toString(),
-        });
-
-        if (response.status === 404) {
-             alert("Erro 404 ao submeter. Verifique a detecção do formulário no Netlify.");
-             return;
-        }        
-        
-     
-        const comment: Comment = {
-            id: Date.now().toString(),
-            name: userName,
-            rating,
-            text: newComment,
-            date: new Date().toLocaleDateString("pt-BR"),
-        };
-        
-        setComments([comment, ...comments]);
-        setNewComment("");
-        setUserName("");
-        setRating(5);
-      
+    fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },   
+    body: encode({
+        "form-name":  "form-react", ...comment})
+    }).then(() => {
         alert("Comentário enviado com sucesso!");
-
-    } catch (err) {       
+    }).catch(() => {
         alert("Falha de rede ao enviar o comentário para o Netlify.");
-    }
+    });    
+    
+    setComments([comment, ...comments]);
+    setNewComment("");
+    setUserName("");
+    setRating(5);      
+     
 };
 
     return (
