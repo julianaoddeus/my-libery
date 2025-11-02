@@ -39,49 +39,38 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
     const [userName, setUserName] = React.useState("");
     const [rating, setRating] = React.useState(5);
 
-    const handleSubmitComment = async (e: React.FormEvent) => {  
-          e.preventDefault()
-          
-          if (!newComment.trim() || !userName.trim()) 
-            return;
-        
-        const formData = new FormData(e.currentTarget as HTMLFormElement);
-        
-        const formObject: Record<string, string> = {};
-            formData.forEach((value, key) => {            
-              formObject[key] = value.toString(); 
-            });
+    const handleSubmitComment = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-        const response = await fetch("/", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: encode(formObject),
-            })
-        
-        await fetch("/",{
+        if (!newComment.trim() || !userName.trim()) return;
+
+        const form = e.currentTarget as HTMLFormElement;
+        const formData = new FormData(form);
+
+        try {
+            await fetch("/", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams(formData as any).toString(),
-        });
-        
-        if (!response.ok) {
-            throw new Error("Falha ao enviar o formulário para o Netlify.")
-        }
+            });
 
-        const comment: Comment = {
+            const comment: Comment = {
             id: Date.now().toString(),
             name: userName,
             rating,
             text: newComment,
-            date: new Date().toLocaleDateString('pt-BR'),
+            date: new Date().toLocaleDateString("pt-BR"),
+            };
+            setComments([comment, ...comments]);
+            setNewComment("");
+            setUserName("");
+            setRating(5);
+            alert("Comentário enviado com sucesso!");
+        } catch (err) {
+            alert("Falha ao enviar o comentário para o Netlify.");
         }
-        setComments([comment, ...comments])
-        setNewComment("")
-        setUserName("")
-        setRating(5)
-        
-        alert("Comentário enviado postado com sucesso!");
-    }
+    };
+
     return (
     <div className="min-h-screen">
         <div className="bg-linear-to-b from-primary/30 via-primary/10 to-background p-8">            
@@ -132,7 +121,8 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                     name={`c-${baseDefault.id}`}
                     method="POST"
                     data-netlify="true"
-                    onSubmit={handleSubmitComment} 
+                    netlify-honeypot="bot-field"
+                    onSubmit={handleSubmitComment}
                     className="mb-8 bg-card p-6 rounded-lg"
                 >
                     <input type="hidden" name="form-name" value={`c-${baseDefault.id}`} />
