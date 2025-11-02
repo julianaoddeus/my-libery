@@ -113,7 +113,7 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                     <h3 className="text-lg font-semibold mb-4 text-foreground">Deixe seu comentário</h3>
                     <div className="space-y-4">
                     <Input
-                        placeholder="Um clássico absoluto! "
+                        placeholder="Se identifique"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
                         className="bg-background border-border text-foreground"
@@ -138,7 +138,7 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
                         className="min-h-32 bg-background border-border text-foreground"
                         required
                     />
-                    <Button type="submit" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    <Button type="submit" className="bg-purple-500 text-primary-foreground hover:bg-purple-500/90">
                         Publicar Comentário
                     </Button>
                     </div>
