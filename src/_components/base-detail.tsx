@@ -37,41 +37,9 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
     const [userName, setUserName] = React.useState("");
     const [rating, setRating] = React.useState(5);
 
-const handleSubmitComment = async (event: any) => {
-  event.preventDefault();
-
-  const form = event.target;
-  const data = new FormData(form);
-
-  const params = new URLSearchParams();
-  for (const [key, value] of data.entries()) {
-    if (typeof value === "string") {
-      params.append(key, value);
-    } else if (value instanceof File) {
-      params.append(key, value.name);
-    }
-  }
- 
-  params.append("form-name", form.getAttribute("name"));
-
-  const encoded = params.toString();
-
-  try {
-    await fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encoded,
-    });
-
-    alert("Comentário enviado com sucesso!");
-    form.reset();
-  } catch (err) {
-    alert("Erro ao enviar o comentário");
-    console.error(err);
-  }
-
-  // --- Atualiza localmente
-  if (!newComment.trim() || !userName.trim()) return;
+const handleSubmitComment = async (e: any) => {
+  e.preventDefault()
+  if (!newComment.trim() || !userName.trim()) return;  
 
   const comment: Comment = {
     id: Date.now().toString(),
@@ -85,10 +53,30 @@ const handleSubmitComment = async (event: any) => {
   setNewComment("");
   setUserName("");
   setRating(5);
+
+  const encode = (data: any) => {
+    return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+  }
+
+  try {
+    await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({ "form-name": "form-react", ...comment })
+      })
+        .then(() => alert("Comentário enviado com sucesso!!"))
+        .catch(error => alert(error));
+    
+  } catch (error) {
+    alert("Erro ao enviar o comentário");
+    console.error(error);
+  }  
 };
 
 
-    return (
+  return (
     <div className="min-h-screen">
         <div className="bg-linear-to-b from-primary/30 via-primary/10 to-background p-8">            
             <Button variant="ghost" onClick={onBack} className="mb-3 text-muted-foreground  hover:text-purple-500 transition-colors">
@@ -137,7 +125,7 @@ const handleSubmitComment = async (event: any) => {
                 </h2>
                <form
                 name="form-react"
-                method="POST"
+                method="post"
                 data-netlify="true"
                 netlify-honeypot="bot-field"
                 onSubmit={handleSubmitComment}
