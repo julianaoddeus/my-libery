@@ -2,14 +2,28 @@ import * as React from "react"
 import { Link } from "gatsby"
 import { Ticket , Home, Library, Film, Clapperboard   } from "lucide-react"
 import { ToggleSidebarButton } from "./toggle"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BaseSidebar  () {
    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+   const [isMobile, setIsMobile] = useState(false);
+
+   useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1280); 
+      if (window.innerWidth < 1280) setIsSidebarOpen(false); 
+    };
+
+    handleResize(); 
+
+   window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+   }, []);
 
    const toogleSidebar = () => {
      setIsSidebarOpen(!isSidebarOpen);
    }
+
   return ( 
        <>
           <ToggleSidebarButton isOpen={isSidebarOpen} onClick={toogleSidebar}/>     

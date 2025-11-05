@@ -41,8 +41,8 @@ const filteredCatalog = catalog.filter((item) =>
             <div className="p-8">
             {/* ONE Section */}
             <div className="mb-8 bg-linear-to-b from-primary/20 to-transparent rounded-lg p-8">
-              <h2 className="text-5xl font-bold mb-4 text-balance">Onde cada título é uma experiência</h2>
-              <p className="text-lg text-muted-foreground text-pretty">
+              <h2 className="text-[28px] md:text-5xl font-bold mb-4 text-balance">Onde cada título é uma experiência</h2>
+              <p className="text-sm lg:text-xl text-muted-foreground text-pretty">
                 {description}
               </p>
             </div>
