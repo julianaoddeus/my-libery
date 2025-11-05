@@ -7,20 +7,20 @@
   Gatsby Minimal TypeScript Starter
 </h1>
 
-# 📚 Book Catalog - Gatsby SSG + SPA
+# 📚 PlotPoint - Gatsby SSG + SPA (futuramente)
 
-Um projeto de catálogo de livros, feito em **Gatsby**, com geração estática de páginas (SSG) e navegação no estilo SPA.  
-Permite listar livros que você leu ou tem interesse em ler, e na página de detalhes de cada livro você pode inserir comentários pessoais sobre ele.
+Um projeto de catálogo, feito em **Gatsby**, com geração estática de páginas (SSG) .  
+Permite listar livros, animes ou filmes que li ou tenho interesse em ler, e detalhes de cada um podendo inserir comentários pessoais sobre.
 
 ---
 
 ## 📝 Funcionalidades
 
-- Lista de livros com título, autor, ano, número de páginas e capa.  
-- Página de detalhes de cada livro com:
+- Lista de livros, animes e filmes com título, autor, ano, número de páginas ou duração e capa.  
+- Detalhes de cada midia com:
   - Sinopse
   - Comentários pessoais
-- Navegação tipo SPA (sem recarregar a página).  
+- Navegação.  
 - Uso de **MDX** para criar os livros como conteúdo estruturado.  
 - Imagens otimizadas com `gatsby-plugin-image`.
 
@@ -43,8 +43,9 @@ ShadCN para maior versatilidade de componentes.
 
 ## 🚀 Quick start (Netlify)
 
-Deploy this starter with one click on [Netlify](https://app.netlify.com/signup):
+Deploy this starter with one click on [Netlify](PlotPoint):
 
-[<img src="https://www.netlify.com/img/deploy/button.svg" alt="Deploy to Netlify" />](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-minimal-ts)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7ab38784-bd69-4875-a8b8-5da558c975e7/deploy-status)](https://app.netlify.com/projects/plotpointcatalog/deploys)
+
 
 ## As imagens e informações sobre filmes e animes neste site são usadas apenas para fins educacionais, sem fins lucrativos. Todos os direitos autorais pertencem a seus respectivos detentores.
