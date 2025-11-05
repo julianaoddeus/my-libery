@@ -37,42 +37,56 @@ export default function BaseDetail({ baseDefault, onBack }: IDetailProps) {
     const [userName, setUserName] = React.useState("");
     const [rating, setRating] = React.useState(5);
 
-const handleSubmitComment = (event: { preventDefault: () => void }) => { 
-    event.preventDefault();
-    
-    if (!newComment.trim() || !userName.trim()) return; 
+const handleSubmitComment = async (event: any) => {
+  event.preventDefault();
 
-    const comment: Comment = {
-        id: Date.now().toString(),
-        name: userName,
-        rating,
-        text: newComment,
-        date: new Date().toLocaleDateString("pt-BR"),
-    };
+  const form = event.target;
+  const data = new FormData(form);
 
-    const encode = (data: any) => {
-        return Object.keys(data)
-            .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-            .join("&");
-    }; 
+  const params = new URLSearchParams();
+  for (const [key, value] of data.entries()) {
+    if (typeof value === "string") {
+      params.append(key, value);
+    } else if (value instanceof File) {
+      params.append(key, value.name);
+    }
+  }
+ 
+  params.append("form-name", form.getAttribute("name"));
 
-    fetch("/", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },   
-    body: encode({
-        "form-name":  "form-react", ...comment})
-    }).then(() => {
-        alert("Comentário enviado com sucesso!");
-    }).catch(() => {
-        alert("Falha de rede ao enviar o comentário para o Netlify.");
-    });    
-    
-    setComments([comment, ...comments]);
-    setNewComment("");
-    setUserName("");
-    setRating(5);      
-     
+  const encoded = params.toString();
+
+  try {
+    await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encoded,
+    });
+
+    alert("Comentário enviado com sucesso!");
+    form.reset();
+  } catch (err) {
+    alert("Erro ao enviar o comentário");
+    console.error(err);
+  }
+
+  // --- Atualiza localmente
+  if (!newComment.trim() || !userName.trim()) return;
+
+  const comment: Comment = {
+    id: Date.now().toString(),
+    name: userName,
+    rating,
+    text: newComment,
+    date: new Date().toLocaleDateString("pt-BR"),
+  };
+
+  setComments([comment, ...comments]);
+  setNewComment("");
+  setUserName("");
+  setRating(5);
 };
+
 
     return (
     <div className="min-h-screen">
@@ -120,51 +134,55 @@ const handleSubmitComment = (event: { preventDefault: () => void }) => {
                     <Star className="h-6 w-6  text-purple-500" />
                     Comentários ({comments.length})
                 </h2>
-               <form 
-                    name="form-react"
-                    method="POST"
-                    data-netlify="true"
-                    data-netlify-honeypot="bot-field"
-                    onSubmit={handleSubmitComment} 
-                    className="mb-8 bg-card p-6 rounded-lg"
+               <form
+                name="form-react"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                onSubmit={handleSubmitComment}
+                className="mb-8 bg-card p-6 rounded-lg"
                 >
-                    <input type="hidden" name="form-name" value="form-react"/>
-                    <input type="hidden" name="bot-field" />                   
+                <input type="hidden" name="form-name" value="form-react" />
+                <input type="hidden" name="bot-field" />
 
-                    <h3 className="text-lg font-semibold mb-4 text-foreground">Deixe seu comentário</h3>
-                    <div className="space-y-4">
+                <h3 className="text-lg font-semibold mb-4 text-foreground">Deixe seu comentário</h3>
+
+                <div className="space-y-4">
                     <Input
-                        name="user-name"
-                        placeholder="Se identifique"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        className="bg-background border-border text-foreground"
-                        required
+                    name="user-name"
+                    placeholder="Se identifique"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    className="bg-background border-border text-foreground"
+                    required
                     />
+
                     <div className="flex items-center gap-4">
-                        <label className="text-sm text-muted-foreground">Avaliação:</label>
-                        <div className="flex gap-1">
+                    <label className="text-sm text-muted-foreground">Avaliação:</label>
+                    <div className="flex gap-1">
                         {[1, 2, 3, 4, 5].map((star) => (
-                            <button key={star} type="button" onClick={() => setRating(star)} className="focus:outline-none">
+                        <button key={star} type="button" onClick={() => setRating(star)} className="focus:outline-none">
                             <Star
-                                className={`h-6 w-6 ${star <= rating ? "fill-purple-500  text-purple-500" : "text-muted-foreground"}`}
+                            className={`h-6 w-6 ${star <= rating ? "fill-purple-500 text-purple-500" : "text-muted-foreground"}`}
                             />
-                            </button>
+                        </button>
                         ))}
-                        </div>
                     </div>
+                    </div>
+
                     <Textarea
-                        name="comment-text"
-                        placeholder="Escreva seu comentário..."
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        className="min-h-32 bg-background border-border text-foreground"
-                        required
+                    name="comment-text"
+                    placeholder="Escreva seu comentário..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    className="min-h-32 bg-background border-border text-foreground"
+                    required
                     />
+
                     <Button type="submit" className="bg-purple-500 text-primary-foreground hover:bg-purple-500/90">
-                        Publicar Comentário
+                    Publicar Comentário
                     </Button>
-                    </div>
+                </div>
                 </form>
 
                <div className="space-y-4">
