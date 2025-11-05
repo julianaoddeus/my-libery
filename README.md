@@ -41,10 +41,10 @@ gatsby-plugin-image – otimização de imagens.
 ShadCN para maior versatilidade de componentes.
 
 
+## 🚀 Quick start (PlotPoin)
+[Acesse o site aqui](https://plotpointcatalog.netlify.app/) 
+
 ## 🚀 Quick start (Netlify)
-
-[Acesse o PlotPoint aqui](https://plotpointcatalog.netlify.app/) 
-
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7ab38784-bd69-4875-a8b8-5da558c975e7/deploy-status)](https://app.netlify.com/projects/plotpointcatalog/deploys)
 
 
