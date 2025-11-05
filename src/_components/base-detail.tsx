@@ -129,6 +129,7 @@ const handleSubmitComment = async (event: any) => {
                 </h2>
                 <p className="text-muted-foreground leading-relaxed text-pretty">{baseDefault.synopsis}</p>
             </section>
+            {/* Comments */}
              <section>
                  <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
                     <Star className="h-6 w-6  text-purple-500" />

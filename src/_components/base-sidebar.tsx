@@ -25,7 +25,7 @@ export default function BaseSidebar  () {
                 <h1 className="text-2xl font-bold text-balance">PlotPoint</h1>
               </div>
 
-              {/* Navegação */}
+              {/* Navegation */}
               <nav className="flex flex-col gap-4">
                 <Link to="/" className="flex items-center gap-3 pl-2 hover:text-purple-500 transition-colors">
                   <Home className="h-5 w-5" />
@@ -46,7 +46,7 @@ export default function BaseSidebar  () {
               </nav>
             </div>
 
-            {/* Rodapé */}
+            {/* Footer */}
             <div className="border-t border-sidebar-border p-6">
               <div className="text-xs text-muted-foreground flex flex-col gap-1">
                 <p>Catálogo de Livros, Animes e Filmes</p>

@@ -39,7 +39,7 @@ const filteredCatalog = catalog.filter((item) =>
             ? (<BaseDetail baseDefault={selectedItem} onBack={() => setSelectedItem(null)}/>)             
             : (
             <div className="p-8">
-            {/* Hero Section */}
+            {/* ONE Section */}
             <div className="mb-8 bg-linear-to-b from-primary/20 to-transparent rounded-lg p-8">
               <h2 className="text-5xl font-bold mb-4 text-balance">Onde cada título é uma experiência</h2>
               <p className="text-lg text-muted-foreground text-pretty">
@@ -61,7 +61,7 @@ const filteredCatalog = catalog.filter((item) =>
               </div>
             </div>
 
-            {/* Books Grid */}
+            {/* Grid */}
             <div className="pt-6">
               <h3 className="text-2xl font-bold mb-6 border-b border-b-gray-800 border-solid">Meus Favoritos</h3>
                <span className="border-t border-gray-300 border-dashed"></span>
