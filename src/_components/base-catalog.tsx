@@ -5,8 +5,6 @@ import BaseCard from "./base-card"
 import { IGatsbyImageData } from "gatsby-plugin-image"
 import { useState } from "react"
 import BaseDetail from "./base-detail"
-import { MediaType } from "../constants/media-types"
-import { PageProps } from "gatsby"
 
 interface ICatalog {
   id: string
@@ -28,6 +26,12 @@ interface ICatalogProps {
 
 export default function BaseCatalog  ({ catalog, description }: ICatalogProps) {
   const [selectedItem, setSelectedItem] = useState<ICatalog | null>(null);  
+  const [searchQuery, setSearchQuery] = useState("");  
+
+const filteredCatalog = catalog.filter((item) =>
+  item.title.toLowerCase().includes(searchQuery ? searchQuery.toString().toLowerCase() : "") ||
+  item.author.toLowerCase().includes(searchQuery ? searchQuery.toString().toLowerCase() : "")
+);
   
   return (
      <main className="flex-1 overflow-y-auto">        
@@ -50,7 +54,8 @@ export default function BaseCatalog  ({ catalog, description }: ICatalogProps) {
                 <Input
                   type="text"
                   placeholder="Buscar livros ou autores..."
-                  readOnly             
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}           
                   className="pl-10 bg-card border-border text-foreground"
                 />
               </div>
@@ -61,7 +66,7 @@ export default function BaseCatalog  ({ catalog, description }: ICatalogProps) {
               <h3 className="text-2xl font-bold mb-6 border-b border-b-gray-800 border-solid">Meus Favoritos</h3>
                <span className="border-t border-gray-300 border-dashed"></span>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-               {catalog.map((bk) => (
+               { filteredCatalog.map((bk) => (
                 <BaseCard key={bk.id} card={bk} onClick={() => setSelectedItem(bk)} />
                ))}
                 

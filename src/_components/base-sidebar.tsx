@@ -12,8 +12,7 @@ export default function BaseSidebar  () {
    }
   return ( 
        <>
-             {/**bg-sidebar flex flex-col justify-between text-sidebar-foreground border-I border-sidebar-border h-screen` */}
-             <ToggleSidebarButton isOpen={isSidebarOpen} onClick={toogleSidebar}/>     
+          <ToggleSidebarButton isOpen={isSidebarOpen} onClick={toogleSidebar}/>     
             <aside
               className={`${
                 isSidebarOpen ? "w-64" : "w-0"
