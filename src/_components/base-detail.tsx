@@ -83,28 +83,36 @@ const handleSubmitComment = async (e: any) => {
                 <ArrowLeft className="mr-2 h-5 w-5" />
                 Voltar
             </Button>           
-            <div className="flex gap-8 items-end">
-                <div className="relative w-64 h-96 shrink-0 rounded-lg overflow-hidden shadow-2xl">
-                <GatsbyImage
-                    image={baseDefault.cover}                     
+            <div className="flex flex-col md:flex-row gap-8 items-end">
+                <div className="relative w-48 h-72 sm:w-56 sm:h-80 md:w-64 md:h-96 shrink-0 rounded-lg overflow-hidden shadow-2xl mx-auto md:mx-0">
+                    <GatsbyImage
+                    image={baseDefault.cover}
                     alt={`Capa do livro ${baseDefault.title}`}
                     className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                />  
+                    />
                 </div>
-                <div className="flex-1 pb-4">
-                    <p className="text-sm uppercase tracking-wider text-muted-foreground mb-2">{baseDefault.mediaType}</p>
-                    <h1 className="text-5xl font-bold mb-4 text-balance">{baseDefault.title}</h1>
-                    <p className="text-xl text-foreground mb-4">{baseDefault.author}</p>
+                <div className="flex-1 pb-4 mt-4 md:mt-0">
+                    <p className="text-sm uppercase tracking-wider text-muted-foreground mb-2">
+                    {baseDefault.mediaType}
+                    </p>
 
-                    <div className="flex gap-6 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                            <Info className="h-4 w-4" />
-                           {baseDefault.mediaType === MediaType.BOOK ? (
-                                <span> {baseDefault.pages} páginas</span>
-                                ) : (
-                                <span> {baseDefault.duration} </span>
-                            )}
-                        </div>
+                    <h1 className="text-3xl sm:text-4xl  md:text-5xl font-bold mb-4 text-balance">
+                    {baseDefault.title}
+                    </h1>
+
+                    <p className="text-lg sm:text-xl text-foreground mb-4">
+                    {baseDefault.author}
+                    </p>
+
+                    <div className="flex gap-4 md:gap-6 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-2">
+                        <Info className="h-4 w-4" />
+                        {baseDefault.mediaType === MediaType.BOOK ? (
+                        <span>{baseDefault.pages} páginas</span>
+                        ) : (
+                        <span>{baseDefault.duration}</span>
+                        )}
+                    </div>
                     </div>
                 </div>
             </div>
