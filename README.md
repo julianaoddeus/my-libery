@@ -23,7 +23,10 @@ Permite listar livros, animes ou filmes que li ou tenho interesse em ler, e deta
 - Navegação.  
 - Uso de **MDX** para criar os livros como conteúdo estruturado.  
 - Imagens otimizadas com `gatsby-plugin-image`.
-
+- Usar a API createPages no gatsby-node.js para:
+  - Consultar todos os MDX pelo GraphQL.
+  - Gerar rotas dinâmicas para cada arquivo.
+  - Definir qual template será usado para renderizar a página do conteúdo.
 ---
 
 ⚡ Tecnologias Utilizadas
