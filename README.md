@@ -42,10 +42,16 @@ ShadCN para maior versatilidade de componentes.
 
 
 ## 🚀 Quick start (PlotPoin)
-[Acesse o site aqui](https://plotpointcatalog.netlify.app/) 
+[Acesse o site aqui](https://plotpointcatalog.netlify.app/) (acabou os créditos)
+
+
+[Acesse o site aqui](https://plotpoint-two.vercel.app/) 
 
 ## 🚀 Quick start (Netlify)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7ab38784-bd69-4875-a8b8-5da558c975e7/deploy-status)](https://app.netlify.com/projects/plotpointcatalog/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7ab38784-bd69-4875-a8b8-5da558c975e7/deploy-status)](https://app.netlify.com/projects/plotpointcatalog/deploys) (acabou os créditos)
 
 
-## As imagens e informações sobre filmes e animes neste site são usadas apenas para fins educacionais, sem fins lucrativos. Todos os direitos autorais pertencem a seus respectivos detentores.
+(https://vercel.com/julianaoddeus-projects/plotpoint)
+
+
+# As imagens e informações sobre filmes e animes neste site são usadas apenas para fins educacionais, sem fins lucrativos. Todos os direitos autorais pertencem a seus respectivos detentores.
