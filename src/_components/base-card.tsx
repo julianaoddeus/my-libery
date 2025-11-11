@@ -21,7 +21,7 @@ interface ICardProps {
 
 }
 
-export default function BaseCard({ card, onClick }: ICardProps) {  
+export default function BaseCard({ card, onClick }: ICardProps) {  console.log(card); 
     return (
     <div  
       onClick={onClick}    

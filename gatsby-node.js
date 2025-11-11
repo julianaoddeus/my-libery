@@ -4,7 +4,6 @@ const fetch = require("node-fetch");
 
 const obterImagens = async (animeUrl, ImagePath) => {
   const imageUrl = animeUrl;
-
   const imageRes = await fetch(imageUrl);
   const buffer = await imageRes.arrayBuffer();
   fs.writeFileSync(ImagePath, Buffer.from(buffer));
@@ -19,7 +18,7 @@ exports.onPreBootstrap = ({ reporter }) => {
   }
 };
 
-exports.createPages = async ({ actions, reporter }) => {
+exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions;
   const idsAnimes = ["59027", "20", "38000", "11061", "30276", "31964"];
   const animeDir = path.join(__dirname, "src/content/animes");
@@ -33,9 +32,9 @@ exports.createPages = async ({ actions, reporter }) => {
       const { data: anime } = await res.json();
       if (!anime) continue;
 
-      const slug = anime.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      const filePath = path.join(animeDir, `${slug}.mdx`);
-      const imagePath = path.join(animeImgDir, `${slug}.jpg`);
+      const animeData = anime.title.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      const filePath = path.join(animeDir, `${animeData}.mdx`);
+      const imagePath = path.join(animeImgDir, `${animeData}.jpg`);
 
       await obterImagens(anime.images?.jpg?.large_image_url, imagePath);
 
@@ -45,7 +44,7 @@ title: "${anime.title.replace(/"/g, '\\"')}"
 author: "${anime.studios?.[0]?.name || "Desconhecido"}"
 year: ${anime.year || "null"}
 duration: "${anime.episodes ? `${anime.episodes} episódios` : "episódios"}"
-cover: "../images/animes/${slug}.jpg"
+cover: "../images/animes/${animeData}.jpg"
 mediaType: "Anime"
 synopsis: "${anime.synopsis?.replace(/"/g, '\\"').replace(/\n/g, " ")}"
 ---
@@ -58,4 +57,53 @@ synopsis: "${anime.synopsis?.replace(/"/g, '\\"').replace(/\n/g, " ")}"
   }
 
   reporter.info("Arquivos MDX de animes criados com sucesso!");
+  const filmesResult = await graphql(`
+    query {
+      allMdx(filter: { internal: { contentFilePath: { regex: "/movies/" } } }) {
+        nodes {
+          id
+          frontmatter {
+            id
+            title
+            author
+            year
+            duration
+            mediaType
+            synopsis
+            slug
+          }
+          internal {
+            contentFilePath
+          }
+        }
+      }
+    }
+  `);
+
+  if (filmesResult.errors) {
+    reporter.panicOnBuild(
+      "Erro ao executar a query GraphQL",
+      filmesResult.errors
+    );
+    return;
+  }
+
+  const filmes = filmesResult.data.allMdx.nodes;
+
+  const templateFilme = path.resolve("./src/templates/movies-template.tsx");
+
+  filmes.forEach((movie) => {
+    console.log("Criando página para o filme:", movie.frontmatter.title);
+    if (movie.frontmatter.slug) {
+      createPage({
+        path: `/movies/${movie.frontmatter.slug}`,
+        component: `${templateFilme}?__contentFilePath=${movie.internal.contentFilePath}`,
+        context: {
+          id: movie.id,
+        },
+      });
+      reporter.info(`Página criada: /movies/${movie.frontmatter.slug}`);
+    }
+  });
+  reporter.info("Páginas de filmes criadas!");
 };

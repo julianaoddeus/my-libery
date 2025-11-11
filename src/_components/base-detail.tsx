@@ -68,7 +68,7 @@ const handleSubmitComment = async (e: any) => {
       })
         .then(() => alert("Comentário enviado com sucesso!!"))
         .catch(error => alert(error));
-    
+
   } catch (error) {
     alert("Erro ao enviar o comentário");
     console.error(error);
@@ -134,8 +134,8 @@ const handleSubmitComment = async (e: any) => {
                <form
                 name="form-react"
                 method="post"
-                data-netlify="true"
-                netlify-honeypot="bot-field"
+                 data-netlify="true"
+                 netlify-honeypot="bot-field"
                 onSubmit={handleSubmitComment}
                 className="mb-8 bg-card p-6 rounded-lg"
                 >
